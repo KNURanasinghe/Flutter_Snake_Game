@@ -16,7 +16,7 @@ migrate_working_dir/
 *.iws
 .idea/
 .metadata
-web
+
 test
 Macos 
 linux
