@@ -31,7 +31,11 @@ class _HomePageState extends State<HomePage> {
   final _nameController = TextEditingController();
 
   // snake position
-  List<int> snakepos = [0, 1, 2];
+  List<int> snakepos = [
+    0,
+    1,
+    2,
+  ];
 
   // food position
   int foodpos = 55;
@@ -120,7 +124,9 @@ class _HomePageState extends State<HomePage> {
     gameStarted = false;
     highscore_Docs = [];
 
-    snakepos = [0, 1, 2];
+    setState(() {
+      snakepos = [0, 1, 2];
+    });
     foodpos = 55;
     currentDirection = snake_Directions.RIGHT;
 
@@ -324,10 +330,15 @@ class _HomePageState extends State<HomePage> {
               // button
               Expanded(
                 child: Center(
-                  child: MaterialButton(
-                    color: gameStarted ? Colors.grey : Colors.pink,
-                    onPressed: gameStarted ? () {} : startGame,
-                    child: const Text("Play"),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      MaterialButton(
+                        color: gameStarted ? Colors.grey : Colors.pink,
+                        onPressed: gameStarted ? () {} : startGame,
+                        child: const Text("Play"),
+                      ),
+                    ],
                   ),
                 ),
               ),
