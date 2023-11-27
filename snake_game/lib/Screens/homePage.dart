@@ -116,12 +116,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future newGame() async {
-    highscore_Docs = [];
     await getDocId();
+    gameStarted = false;
+    highscore_Docs = [];
+
     snakepos = [0, 1, 2];
     foodpos = 55;
     currentDirection = snake_Directions.RIGHT;
-    gameStarted = false;
+
     currentScore = 0;
   }
 
