@@ -56,41 +56,26 @@ class _HomePageState extends State<HomePage> {
         .orderBy("score", descending: true)
         .limit(10)
         .get()
-        .then((value) => value.docs.forEach((element) {
-              highscore_Docs.add(element.reference.id);
-            }));
+        .then(
+          (value) => value.docs.forEach((element) {
+            highscore_Docs.add(element.reference.id);
+          }),
+        );
   }
 
   // start game
+
   void startGame() {
     gameStarted = true;
     Timer.periodic(const Duration(milliseconds: 200), (timer) {
       setState(() {
         //keep the snake moving
+
         moveSnake();
 
         //check if the game is over
         if (gameOver()) {
           timer.cancel();
-
-          Future newGame() async {
-            highscore_Docs = [];
-            await getDocId();
-            snakepos = [0, 1, 2];
-            foodpos = 55;
-            currentDirection = snake_Directions.RIGHT;
-
-            currentScore = 0;
-          }
-
-          void submitScore() {
-            //get access to the collection
-            var database = FirebaseFirestore.instance;
-            database.collection('highscores').add({
-              "name": _nameController.text,
-              "score": currentScore,
-            });
-          }
 
           //display a message to a user
 
@@ -116,6 +101,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.pop(context);
 
                         submitScore();
+
                         newGame();
                       },
                       color: Colors.pink,
@@ -126,6 +112,25 @@ class _HomePageState extends State<HomePage> {
               });
         }
       });
+    });
+  }
+
+  Future newGame() async {
+    highscore_Docs = [];
+    await getDocId();
+    snakepos = [0, 1, 2];
+    foodpos = 55;
+    currentDirection = snake_Directions.RIGHT;
+    gameStarted = false;
+    currentScore = 0;
+  }
+
+  void submitScore() {
+    //get access to the collection
+    var database = FirebaseFirestore.instance;
+    database.collection('highscores').add({
+      "name": _nameController.text,
+      "score": currentScore,
     });
   }
 
@@ -195,7 +200,6 @@ class _HomePageState extends State<HomePage> {
 
   // game over
   bool gameOver() {
-    gameStarted = false;
     //the game is over when the snake is run into itself
     //this occur when there is duplicate position in the snakepos list
 
